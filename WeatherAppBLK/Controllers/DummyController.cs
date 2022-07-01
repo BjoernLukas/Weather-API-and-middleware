@@ -8,12 +8,12 @@ namespace WeatherAppBLK.Controllers
     {
         
         [HttpGet(Name = "DummyController")]
-        public int Get()
+        public string Get()
         {
 
 
 
-            return 42;
+            return "HelloWorld";
         }
 
 
