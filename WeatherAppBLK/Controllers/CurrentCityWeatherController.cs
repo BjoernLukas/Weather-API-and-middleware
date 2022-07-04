@@ -10,14 +10,13 @@ namespace WeatherAppBLK.Controllers
     public class CurrentCityWeatherController : ControllerBase
     {
 
-        //private readonly IHttpClientFactory _httpClientFactory;
-
-        //private CancellationTokenSource _CancellationToken = new();
 
 
-        [HttpGet(Name = "CityWeatherController")]
+        [HttpGet(Name = "CurrentCityWeatherController")]
         public async Task<HttpResponseMessage> Get(CancellationToken token)
         {
+            var lastFetch = DateTime.Now;
+
             var client = new HttpClient();
 
             //var client = _httpClientFactory.CreateClient();
@@ -27,9 +26,7 @@ namespace WeatherAppBLK.Controllers
             var city = "London";
             var currentWeather = "yes"; //current weather conditions output
             var format = "json";
-
             var cityUrl = $"http://api.worldweatheronline.com/premium/v1/weather.ashx?key={apiKey}&q={city}&cc={currentWeather}&format={format}";
-            
 
             #region XML maybe?
             //var response = await client.GetAsync(cityUrl);
@@ -40,48 +37,36 @@ namespace WeatherAppBLK.Controllers
             //xml.Deserialize(responseContent,);
             #endregion XML maybe?
 
-            
-            #region Json maybe?
             var jsonOptions = new JsonSerializerOptions();
 
-            
-
             //var jsonResponse = await client.GetFromJsonAsync<object>(cityUrl, cancellationToken: token);
-
             var jsonResponse = await client.GetFromJsonAsync<Mapping.Rootobject>(cityUrl, cancellationToken: token);
 
-            var TempC = jsonResponse.data.current_condition[0].temp_C;
-            var observationTime = jsonResponse.data.current_condition[0].observation_time;
+            var tempC = jsonResponse?.data.current_condition[0].temp_C;
+            var observationTime = jsonResponse?.data.current_condition[0].observation_time;
+
+            //TODO: Create as middleware
+            bool? WeatherBeenFetchLast15min;
+
+            //TODO: Handle possible null ref
+            var DateTimeObservationTime = DateTime.Parse(observationTime);
 
 
-            #endregion Json maybe?
-
-
-
-            bool? haveWeatherBeenFetch15min;
-
-            var responseMessageNotModified = new HttpResponseMessage(HttpStatusCode.NotModified) { Content = new StringContent("NotModified") };
-            var responseMessageOk = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Response OK") };
-
-
-            
-
-            //TODO: add logic here
-            if (true)
-            {
-                return responseMessageOk;
-            }
+            if ((lastFetch - DateTimeObservationTime).TotalMinutes <= 15)
+            { WeatherBeenFetchLast15min = true; }
             else
-            {
-                return responseMessageNotModified;
-            }
-           
+            { WeatherBeenFetchLast15min = false; }
 
-            
+            return WeatherBeenFetchLast15min switch
+            {
+                true => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Response OK") },
+                false => new HttpResponseMessage(HttpStatusCode.NotModified) { Content = new StringContent("NotModified") },
+                null => new HttpResponseMessage(HttpStatusCode.ExpectationFailed) { Content = new StringContent("Failed") }
+            };
         }
 
 
-        
+
 
     }
 }
