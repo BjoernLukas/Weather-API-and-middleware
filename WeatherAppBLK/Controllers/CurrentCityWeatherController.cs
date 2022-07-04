@@ -52,7 +52,7 @@ namespace WeatherAppBLK.Controllers
             var DateTimeObservationTime = DateTime.Parse(observationTime);
 
             //TODO: Get from to MiddleWare class
-            var lastFetch = DateTime.Parse("01/01/2023");
+            var lastFetch = DateTime.Parse("01/01/2022");
 
 
             if ((lastFetch - DateTimeObservationTime).TotalMinutes <= 15)
@@ -60,9 +60,14 @@ namespace WeatherAppBLK.Controllers
             else
             { WeatherBeenFetchLast15min = false; }
 
+            var boo = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent($"Temperature is {tempC}")};
+
+
+
+
             return WeatherBeenFetchLast15min switch
             {
-                true => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent("Response OK") },
+                true => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent($"Temperature is {tempC}") },
                 false => new HttpResponseMessage(HttpStatusCode.NotModified) { Content = new StringContent("NotModified") },
                 null => new HttpResponseMessage(HttpStatusCode.ExpectationFailed) { Content = new StringContent("Failed") }
             };

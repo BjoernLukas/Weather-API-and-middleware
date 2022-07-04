@@ -1,3 +1,5 @@
+using WeatherAppBLK.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,11 +24,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run(async context =>
-{
-    await context.Response.WriteAsync("Hello Dear Readers!");
-});
+//app.Run(async context =>
+//{
+//    await context.Response.WriteAsync("Hello Dear Readers!");
+//});
 
+//app.Use(async (context, next) =>
+//{
+//    //Do work that does not write to the Response
+//    await next.Invoke();
+//    //Do logging or other work that does not write to the Response.
+//});
 
+app.UseMiddleware<FetchTimeMiddleware>();
 
 app.Run();
