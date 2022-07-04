@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using WeatherAppBLK.Middleware;
 
 namespace WeatherAppBLK.Controllers
 {
@@ -45,6 +46,9 @@ namespace WeatherAppBLK.Controllers
             var tempC = jsonResponse?.data.current_condition[0].temp_C;
             var observationTime = jsonResponse?.data.current_condition[0].observation_time;
 
+
+            #region Move Middle Ware
+
             //TODO: Create as middleware
             bool? WeatherBeenFetchLast15min;
 
@@ -58,9 +62,10 @@ namespace WeatherAppBLK.Controllers
             if ((lastFetch - DateTimeObservationTime).TotalMinutes <= 15)
             { WeatherBeenFetchLast15min = true; }
             else
-            { WeatherBeenFetchLast15min = false; }
+            { WeatherBeenFetchLast15min = false; } 
+            #endregion
 
-            var boo = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent($"Temperature is {tempC}")};
+            DateTime lastFetchTime;
 
 
 

@@ -38,4 +38,8 @@ app.MapControllers();
 
 app.UseMiddleware<FetchTimeMiddleware>();
 
+
+
 app.Run();
+
+

@@ -5,8 +5,6 @@ namespace WeatherAppBLK.Mapping;
 
 
 //TODO: add JsonPropertyName 
-
-
 public class Rootobject
 {
     public Data data { get; set; }
