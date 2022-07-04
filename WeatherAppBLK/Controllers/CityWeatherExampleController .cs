@@ -7,7 +7,7 @@ namespace WeatherAppBLK.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CityWeatherController : ControllerBase
+    public class CityWeatherExampleController : ControllerBase
     {
 
         //private readonly IHttpClientFactory _httpClientFactory;
@@ -15,19 +15,30 @@ namespace WeatherAppBLK.Controllers
         //private CancellationTokenSource _CancellationToken = new();
 
 
-        [HttpGet(Name = "CityWeatherController")]
+        [HttpGet(Name = "CityWeatherExampleController")]
         public async Task<HttpResponseMessage> Get(CancellationToken token)
         {
             var client = new HttpClient();
 
             //var client = _httpClientFactory.CreateClient();
 
-
+            //Parameters
             const string apiKey = "2a4d176f29584d73ae764117223006";
-            var format = "json";
-            var city = "London";
+            var city = "Aarhus";
 
-            var cityUrl = $"http://api.worldweatheronline.com/premium/v1/weather.ashx?key={apiKey}&q={city}&fx=no&cc=no&mca=yes&format={format}";
+            //fx
+            var unknown1 = "no";
+
+            //cc
+            var unknown2 = "";
+
+            //mca
+            var unknown3 = "";
+            
+            var format = "json";
+
+
+            var cityUrl = $"http://api.worldweatheronline.com/premium/v1/weather.ashx?key={apiKey}&q={city}&fx={unknown1}&cc=no&mca=yes&format={format}";
 
             var baseUrl = @"https://api.worldweatheronline.com/premium/v1/weather.ashx";
 
@@ -46,8 +57,9 @@ namespace WeatherAppBLK.Controllers
             #region Json maybe?
             var jsonOptions = new System.Text.Json.JsonSerializerOptions();
 
+            
 
-            var jsonResponse = await client.GetFromJsonAsync<CityWeather>(cityUrl, cancellationToken: token);
+            //var jsonResponse = await client.GetFromJsonAsync<CityWeather>(cityUrl, cancellationToken: token);
             #endregion Json maybe?
 
             

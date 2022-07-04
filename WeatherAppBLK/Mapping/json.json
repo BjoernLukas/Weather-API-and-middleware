@@ -1,0 +1,18 @@
+{
+  "data": {
+    "request": [
+      {
+        "type": "City",
+        "query": "London, United Kingdom"
+      }
+    ],
+    "current_condition": [
+      {
+        "observation_time": "09:32 AM",
+        "temp_C": "19",
+        "temp_F": "66"
+      }
+    ]
+
+  }
+}
