@@ -1,4 +1,4 @@
-namespace WeatherAppBLK
+namespace WeatherAppBLK.Mapping
 {
     public class WeatherForecast
     {

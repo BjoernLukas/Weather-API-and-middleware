@@ -22,4 +22,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Run(async context =>
+{
+    await context.Response.WriteAsync("Hello Dear Readers!");
+});
+
+
+
 app.Run();

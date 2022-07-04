@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WeatherAppBLK.Mapping;
 
 namespace WeatherAppBLK.Controllers
 {

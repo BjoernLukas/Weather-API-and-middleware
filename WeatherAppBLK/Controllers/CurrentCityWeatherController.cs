@@ -15,7 +15,7 @@ namespace WeatherAppBLK.Controllers
         [HttpGet(Name = "CurrentCityWeatherController")]
         public async Task<HttpResponseMessage> Get(CancellationToken token)
         {
-            var lastFetch = DateTime.Now;
+           
 
             var client = new HttpClient();
 
@@ -30,7 +30,7 @@ namespace WeatherAppBLK.Controllers
 
             #region XML maybe?
             //var response = await client.GetAsync(cityUrl);
-            //var responseContent = response.Content.ReadAsStream(); //TODO: Async
+            //var responseContent = response.Content.ReadAsStream(); 
 
             //var xml = new XmlSerializer(typeof(CityWeather));
             //var assignmentResult = new CityWeather();
@@ -48,8 +48,11 @@ namespace WeatherAppBLK.Controllers
             //TODO: Create as middleware
             bool? WeatherBeenFetchLast15min;
 
-            //TODO: Handle possible null ref
+            //TODO: Handle possible null ref add tryPase
             var DateTimeObservationTime = DateTime.Parse(observationTime);
+
+            //TODO: Get from to MiddleWare class
+            var lastFetch = DateTime.Parse("01/01/2023");
 
 
             if ((lastFetch - DateTimeObservationTime).TotalMinutes <= 15)
