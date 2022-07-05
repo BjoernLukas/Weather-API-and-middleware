@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc;
+using WeatherAppBLK.Interfaces;
 using WeatherAppBLK.Middleware;
 
 namespace WeatherAppBLK.Controllers
@@ -10,8 +11,13 @@ namespace WeatherAppBLK.Controllers
     [Route("[controller]")]
     public class CurrentCityWeatherController : ControllerBase
     {
+        private readonly IDateTime _dateTime;
 
 
+        public CurrentCityWeatherController(IDateTime dateTime)
+        {
+            _dateTime = dateTime;
+        }
 
         [HttpGet(Name = "CurrentCityWeatherController")]
         public async Task<HttpResponseMessage> Get(CancellationToken token)
@@ -67,7 +73,7 @@ namespace WeatherAppBLK.Controllers
 
             DateTime lastFetchTime;
 
-
+            var testDI = _dateTime;
 
 
             return WeatherBeenFetchLast15min switch

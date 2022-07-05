@@ -1,3 +1,4 @@
+using WeatherAppBLK.Interfaces;
 using WeatherAppBLK.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddSingleton<IDateTime, SystemDateTime>();
 
 var app = builder.Build();
 
@@ -36,10 +40,8 @@ app.MapControllers();
 //    //Do logging or other work that does not write to the Response.
 //});
 
-app.UseMiddleware<FetchTimeMiddleware>();
-
-
-
+//QUEST Turn this on/off
+//app.UseMiddleware<FetchTimeMiddleware>();
 app.Run();
 
 
