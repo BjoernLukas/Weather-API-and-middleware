@@ -1,5 +1,5 @@
-using WeatherAppBLK.Interfaces;
 using WeatherAppBLK.Middleware;
+using WeatherAppBLK.Time;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IDateTime, SystemDateTime>();
+builder.Services.AddSingleton<IDateTime, LastFetchTime>();
 
 var app = builder.Build();
 
