@@ -2,6 +2,8 @@
 {
     public class LastFetchTime : IDateTime
     {
-        public DateTime FetchTime { get; set; } = DateTime.MinValue;
+       public static DateTime FetchTime { get; set; } = DateTime.MinValue;
     }
+    
+    
 }

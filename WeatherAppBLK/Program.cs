@@ -41,7 +41,7 @@ app.MapControllers();
 //});
 
 //QUEST Turn this on/off
-//app.UseMiddleware<FetchTimeMiddleware>();
+app.UseMiddleware<FetchTimeMiddleware>();
 app.Run();
 
 

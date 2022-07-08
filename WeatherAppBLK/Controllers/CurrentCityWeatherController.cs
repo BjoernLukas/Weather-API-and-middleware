@@ -11,14 +11,7 @@ namespace WeatherAppBLK.Controllers
     [Route("[controller]")]
     public class CurrentCityWeatherController : ControllerBase
     {
-        private readonly IDateTime _LastFetchTime;
-
-
-        public CurrentCityWeatherController(IDateTime lastFetchTime)
-        {
-            _LastFetchTime = lastFetchTime;
-        }
-
+      
         [HttpGet(Name = "CurrentCityWeatherController")]
         public async Task<HttpResponseMessage> Get(CancellationToken token)
         {
@@ -56,7 +49,7 @@ namespace WeatherAppBLK.Controllers
             #region Move Middle Ware
 
             //TODO: Create as middleware
-            bool? WeatherBeenFetchLast15min;
+            bool? WeatherBeenFetchWithinTimeThresshold;
 
             //TODO: Handle possible null ref add tryPase
             var DateTimeObservationTime = DateTime.Parse(observationTime);
@@ -65,18 +58,24 @@ namespace WeatherAppBLK.Controllers
             var lastFetch = DateTime.Parse("01/01/2022");
 
 
-            if ((lastFetch - DateTimeObservationTime).TotalMinutes <= 15)
-            { WeatherBeenFetchLast15min = true; }
+            var testDI1 = LastFetchTime.FetchTime;
+
+
+            if ((lastFetch - DateTimeObservationTime).TotalSeconds <= 10)
+            {
+                WeatherBeenFetchWithinTimeThresshold = true;
+                LastFetchTime.FetchTime = DateTime.Now;
+            }
             else
-            { WeatherBeenFetchLast15min = false; } 
+            { WeatherBeenFetchWithinTimeThresshold = false; } 
             #endregion
 
-            
-
-            var testDI = _LastFetchTime;
 
 
-            return WeatherBeenFetchLast15min switch
+            var testDI2 = LastFetchTime.FetchTime;
+
+
+            return WeatherBeenFetchWithinTimeThresshold switch
             {
                 true => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent($"Temperature is {tempC}") },
                 false => new HttpResponseMessage(HttpStatusCode.NotModified) { Content = new StringContent("NotModified") },

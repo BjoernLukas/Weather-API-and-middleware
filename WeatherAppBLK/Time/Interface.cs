@@ -3,7 +3,7 @@
     
     public interface IDateTime
     {
-        DateTime FetchTime { get; set; }
+       static DateTime  FetchTime { get; set; }
 
         
     }
