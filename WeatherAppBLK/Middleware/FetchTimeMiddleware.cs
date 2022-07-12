@@ -15,15 +15,14 @@ internal class FetchTimeMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        
-        //TODO: Add time logic 
-        if ((DateTime.Now - LastFetchTime.FetchTime ).TotalSeconds <= 10)
+        //if ((DateTime.Now - LastFetchTime.FetchTime).TotalMinutes <= 15)
+        if ((DateTime.Now - LastFetchTime.FetchTime).TotalSeconds <= 10)
         {
             await context.Response.WriteAsync("End point have been called withing the last 15min (10sek for test)");
-            context.Response.StatusCode = (int)HttpStatusCode.NotModified;
+            context.Response.StatusCode = (int) HttpStatusCode.NotModified;
         }
 
+        //Moves on to the next step in pipeline
         await _next(context);
     }
-
 }
